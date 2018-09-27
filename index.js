@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
   database : 'test' //mysql database name
 });
 
-connection.connect(function(err) {
+connection.connect((err) => {
   if (err) throw err
   console.log('You are now connected with mysql database...')
 })
@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 //end body-parser configuration
 
 //create app server
-var server = app.listen(3000,  "127.0.0.1", function () {
+var server = app.listen(3000,  "127.0.0.1",  () => {
 
   var host = server.address().address
   var port = server.address().port
@@ -36,42 +36,42 @@ var server = app.listen(3000,  "127.0.0.1", function () {
 });
 
 //rest api to get all client
-app.get('/client', function (req, res) {
-   connection.query('select * from client', function (error, results, fields) {
+app.get('/client', (req, res) => {
+   connection.query('select * from client',  (error, results, fields) => {
 	  if (error) throw error;
 	  res.end(JSON.stringify(results));
 	});
 });
 //rest api to get a single client data
-app.get('/client/:id', function (req, res) {
-   connection.query('select * from client where Id=?', [req.params.id], function (error, results, fields) {
+app.get('/client/:id', (req, res) => {
+   connection.query('select * from client where Id=?', [req.params.id], (error, results, fields) => {
 	  if (error) throw error;
 	  res.end(JSON.stringify(results));
 	});
 });
 
 //rest api to create a new client record into mysql database
-app.post('/client', function (req, res) {
+app.post('/client', (req, res) => {
    var params  = req.body;
    console.log(params);
-   connection.query('INSERT INTO client SET ?', params, function (error, results, fields) {
+   connection.query('INSERT INTO client SET ?', params, (error, results, fields) => {
 	  if (error) throw error;
 	  res.end(JSON.stringify(results));
 	});
 });
 
 //rest api to update record into mysql database
-app.put('/client', function (req, res) {
-   connection.query('UPDATE `client` SET `Name`=?,`Address`=?,`Country`=?,`Phone`=? where `Id`=?', [req.body.Name,req.body.Address, req.body.Country, req.body.Phone, req.body.Id], function (error, results, fields) {
+app.put('/client', (req, res) => {
+   connection.query('UPDATE `client` SET `Name`=?,`Address`=?,`Country`=?,`Phone`=? where `Id`=?', [req.body.Name,req.body.Address, req.body.Country, req.body.Phone, req.body.Id], (error, results, fields) => {
 	  if (error) throw error;
 	  res.end(JSON.stringify(results));
 	});
 });
 
 //rest api to delete record from mysql database
-app.delete('/client', function (req, res) {
+app.delete('/client', (req, res) => {
    console.log(req.body);
-   connection.query('DELETE FROM `client` WHERE `Id`=?', [req.body.Id], function (error, results, fields) {
+   connection.query('DELETE FROM `client` WHERE `Id`=?', [req.body.Id], (error, results, fields) => {
 	  if (error) throw error;
 	  res.end('Record has been deleted!');
 	});
